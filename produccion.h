@@ -26,6 +26,8 @@ int pedirOpcion(int min, int max);
 
 int cadenaIgual(const char *a, const char *b);
 void copiarCadena(char *dst, const char *src, int maxLen);
+int nombreEsValido(const char *nombre);
+void pedirNombre(const char *mensaje, char *destino, int maxLen);
 
 int buscarProducto(const char *nombre);
 void mostrarProductos(void);

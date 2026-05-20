@@ -228,6 +228,55 @@ void copiarCadena(char *dst, const char *src, int maxLen) {
     dst[i] = '\0';
 }
 
+int nombreEsValido(const char *nombre) {
+    int i = 0;
+    char c;
+
+    if (nombre[0] == '\0') {
+        return 0;
+    }
+
+    while (nombre[i] != '\0') {
+        c = nombre[i];
+
+        if (!((c >= 'a' && c <= 'z') ||
+              (c >= 'A' && c <= 'Z') ||
+              c == ' ')) {
+            return 0;
+        }
+
+        i++;
+    }
+
+    return 1;
+}
+
+void pedirNombre(const char *mensaje, char *destino, int maxLen) {
+    int len;
+
+    while (1) {
+        printf("%s", mensaje);
+        len = leerLinea(destino, maxLen);
+
+        if (len == 0) {
+            printf("[ERROR] El nombre no puede estar vacio.\n");
+            continue;
+        }
+
+        if (len >= maxLen - 1) {
+            printf("[ERROR] El nombre es demasiado largo. Maximo %d caracteres.\n", maxLen - 1);
+            continue;
+        }
+
+        if (!nombreEsValido(destino)) {
+            printf("[ERROR] El nombre solo puede contener letras y espacios. No se permiten numeros ni simbolos.\n");
+            continue;
+        }
+
+        return;
+    }
+}
+
 void mostrarProductos(void) {
     int i;
 
@@ -260,7 +309,7 @@ void ingresarProducto(void) {
         return;
     }
 
-    pedirCadena("Nombre del producto: ", nombre, MAX_NOMBRE);
+    pedirNombre("Nombre del producto: ", nombre, MAX_NOMBRE);
 
     if (buscarProducto(nombre) != -1) {
         printf("[ERROR] Ya existe un producto con ese nombre. Operacion cancelada.\n");
@@ -302,7 +351,7 @@ void editarProducto(void) {
     }
 
     mostrarProductos();
-    pedirCadena("\nNombre del producto a editar: ", nombre, MAX_NOMBRE);
+    pedirNombre("\nNombre del producto a editar: ", nombre, MAX_NOMBRE);
 
     idx = buscarProducto(nombre);
 
@@ -329,7 +378,7 @@ void editarProducto(void) {
             char nuevoNombre[MAX_NOMBRE];
             int existe;
 
-            pedirCadena("Nuevo nombre: ", nuevoNombre, MAX_NOMBRE);
+            pedirNombre("Nuevo nombre: ", nuevoNombre, MAX_NOMBRE);
             existe = buscarProducto(nuevoNombre);
 
             if (existe != -1 && existe != idx) {
@@ -372,7 +421,7 @@ void eliminarProducto(void) {
     }
 
     mostrarProductos();
-    pedirCadena("\nNombre del producto a eliminar: ", nombre, MAX_NOMBRE);
+    pedirNombre("\nNombre del producto a eliminar: ", nombre, MAX_NOMBRE);
 
     idx = buscarProducto(nombre);
 
